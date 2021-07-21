@@ -3,7 +3,7 @@
 
 0. Background
 
-vector-tools 와 atom 라이브러리를 사용함.
+vectortools 와 atom 라이브러리를 사용함.
 
 https://github.com/junobonnie/vectortools-and-atom
 
