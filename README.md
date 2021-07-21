@@ -1,7 +1,8 @@
 # gravity-simulator
 
 
-0. vector-tools 와 atom 라이브러리를 
+0. vector-tools 와 atom 라이브러리를 사용함.
+
 https://github.com/junobonnie/vectortools-and-atom
 
 
