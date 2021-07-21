@@ -1,9 +1,14 @@
 # gravity-simulator
 
 
-0. vector-tools 와 atom 라이브러리를 사용함.
+0. Background
+
+vector-tools 와 atom 라이브러리를 사용함.
 
 https://github.com/junobonnie/vectortools-and-atom
+
+softening length를 도입함. (http://www.scholarpedia.org/article/N-body_simulations_(gravitational))
+
 
 
 1. gravity-simulator demo video(모바일 재생 불가):
@@ -11,11 +16,14 @@ https://github.com/junobonnie/vectortools-and-atom
 https://user-images.githubusercontent.com/60418809/126363251-b521883b-ae18-4127-aae7-f07725278017.mp4
 
 
+
 2. 시스템의 운동 에너지와 퍼텐셜 에너지의 시간 그래프:
 
 ![image](https://user-images.githubusercontent.com/60418809/126363312-3b4a1494-a6cb-4aab-9403-798d3ee06906.png)
 
 퍼텐셜 에너지의 시간 평균이 운동 에너지의 시간 평균의 -2배라는 것을 보여준다(\<U> = -2\<K>). 이는 비리얼 정리의 결과이다.
+
+
 
 3. 다양한 분포 그래프:
   
