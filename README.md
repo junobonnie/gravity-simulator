@@ -1,6 +1,10 @@
 # gravity-simulator
 
 
+0. vector-tools 와 atom 라이브러리를 
+https://github.com/junobonnie/vectortools-and-atom
+
+
 1. gravity-simulator demo video(모바일 재생 불가):
 
 https://user-images.githubusercontent.com/60418809/126363251-b521883b-ae18-4127-aae7-f07725278017.mp4
