@@ -33,6 +33,19 @@ class Atom(Atom):
         else:
             return 0
         
+    def fusion(self, other_Atom):
+        new_Atom = None
+        if not self == other_Atom:
+            d = self.pos - other_Atom.pos
+            if (d.dot(d) < (self.element.radius + other_Atom.element.radius)**2):
+                new_element = Element(name = 'New atom', mass = self.element.mass + other_Atom.element.mass, 
+                                      radius = m.sqrt(self.element.radius**2 + other_Atom.element.radius**2),
+                                      color = self.element.color + other_Atom.element.color)
+                new_Atom = Atom(element = new_element, 
+                                pos = (self.element.mass*self.pos + other_Atom.element.mass*other_Atom.pos)/(self.element.mass + other_Atom.element.mass),
+                                vel = (self.element.mass*self.vel + other_Atom.element.mass*other_Atom.vel)/(self.element.mass + other_Atom.element.mass))
+        return new_Atom
+    
 class World(World):
     def __init__(self, t, atoms, walls, G, gravity = Vector(0, 0)):
         self.t = t
@@ -46,7 +59,8 @@ class Simulator(Simulator):
         self.dt = dt
         self.world = world
         self.render = render
-        self.count = 0
+        self.count_screen = 0
+        self.count_snapshot = 0
         
     def main(self):
         x_ = []
@@ -79,7 +93,7 @@ if __name__ == '__main__':
     green = pg.Color('green')
     blue = pg.Color('blue')
 
-    wall1 = Wall(1000, 50, 0, Vector(-500, -400), blue)
+    wall1 = Wall(1000, 50, 0, Vector(-500, -400), red)
     wall2 = Wall(50, 800, 0, Vector(-500, -400), blue)
     wall3 = Wall(50, 800, 0, Vector(450,-400), blue)
     wall4 = Wall(1000, 50, 0, Vector(-500, 350), blue)
@@ -102,12 +116,14 @@ if __name__ == '__main__':
     import random as r
     import math as m
     for i in range(50):
-        rV = SO2(r.random()*2*m.pi).dot(Vector(r.randrange(-200, 200, 2*e1.radius) ,0))
-        atoms.append(Atom(e1, rV))
+        theta = r.random()*2*m.pi
+        rV = SO2(theta).dot(Vector(r.randrange(0, 200, 2*e1.radius) ,0))
+        atoms.append(Atom(e1, rV, 3*SO2(theta).dot(Vector(0, 30))))
     
     for i in range(50):
-        rV = SO2(r.random()*2*m.pi).dot(Vector(r.randrange(-200, 200, 2*e1.radius) ,0))
-        atoms.append(Atom(e2, rV))
+        theta = r.random()*2*m.pi
+        rV = SO2(theta).dot(Vector(r.randrange(0, 200, 2*e2.radius) ,0))
+        atoms.append(Atom(e2, rV, 3*SO2(theta).dot(Vector(0, 30))))
         
     G = 1000
     gravity = Vector(0, 0)
@@ -127,15 +143,16 @@ if __name__ == '__main__':
         simulator.draw_grid(100)
         simulator.draw_wall()
         simulator.main()
-        simulator.atom_wall_collision()
-        #simulator.atom_atom_collision()
+        # simulator.atom_wall_collision()
+        # simulator.atom_atom_collision()
+        # simulator.atom_atom_fusion()
         simulator.draw_atom()
 
-        render.text('pos = (%.2f, %.2f)'%(atoms[0].pos.x, atoms[0].pos.y) , None, 30, Vector(atoms[0].pos.x -100, atoms[0].pos.y - 30), black)
-        render.text('vel = (%.2f, %.2f)'%(atoms[0].vel.x, atoms[0].vel.y) , None, 30, Vector(atoms[0].pos.x -100, atoms[0].pos.y - 50), black)
+        # render.text('pos = (%.2f, %.2f)'%(atoms[0].pos.x, atoms[0].pos.y) , None, 30, Vector(atoms[0].pos.x -100, atoms[0].pos.y - 30), black)
+        # render.text('vel = (%.2f, %.2f)'%(atoms[0].vel.x, atoms[0].vel.y) , None, 30, Vector(atoms[0].pos.x -100, atoms[0].pos.y - 50), black)
 
-        render.text('pos = (%.2f, %.2f)'%(atoms[50].pos.x, atoms[50].pos.y) , None, 30, Vector(atoms[50].pos.x -100, atoms[50].pos.y - 30), blue)
-        render.text('vel = (%.2f, %.2f)'%(atoms[50].vel.x, atoms[50].vel.y) , None, 30, Vector(atoms[50].pos.x -100, atoms[50].pos.y - 50), blue)
+        # render.text('pos = (%.2f, %.2f)'%(atoms[50].pos.x, atoms[50].pos.y) , None, 30, Vector(atoms[50].pos.x -100, atoms[50].pos.y - 30), blue)
+        # render.text('vel = (%.2f, %.2f)'%(atoms[50].vel.x, atoms[50].vel.y) , None, 30, Vector(atoms[50].pos.x -100, atoms[50].pos.y - 50), blue)
         
         K = 0
         P = 0
@@ -162,7 +179,7 @@ if __name__ == '__main__':
         clock.tick(100)
         pg.display.update()
         
-        simulator.save_screen('images/gravity_model_demo')
+        # simulator.save_screen('images/gravity_model_demo_1')
         
         if t > 20:
             break
